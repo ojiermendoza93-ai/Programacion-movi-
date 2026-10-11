@@ -1,0 +1,37 @@
+import javax.swing.JOptionPane;
+
+public class Prueba {
+    public static void main(String[] args) {
+        //JOptionPane.showMessageDialog(null, "Hola Mundo!!!");
+        Boton b = new Boton();
+       
+    }
+}
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+public class Boton extends JFrame{
+   
+    public Boton(){
+        setSize(200,200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Programa 01");
+       
+        JButton btnSaludar = new JButton("Da click aqui");
+       
+        btnSaludar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Holaaaa soy Orduña Hernandez Gael Neftali!!!");
+            }
+        });
+       
+        add(btnSaludar);
+        setVisible(true);
+    }
+       
+}
