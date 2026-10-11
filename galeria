@@ -1,0 +1,148 @@
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+public class Galeria extends JFrame{
+    JButton btnAtras, btnAdelante, btnPlay, btnSalir;
+    JPanel panelBotones, panelImagen, panelNombre;
+    ImageIcon [] imagenes;
+    int imagenActual;
+    JLabel etiquetaImagen, etiquetaNombres;
+    String [] Nombres;  
+   
+    Timer timer;
+    boolean reproduciendo;
+   
+    public Galeria(){
+        setTitle("Galeria 1");
+        setSize(400,500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);            
+       
+        panelNombre = new JPanel();
+        panelBotones = new JPanel();        
+        panelImagen = new JPanel();        
+        btnAtras = new JButton("Atras");
+        btnAdelante = new JButton("Adelante");
+        btnPlay = new JButton("Reproducir");
+        btnSalir = new JButton("Salir");
+        
+        Nombres = new String[]{
+            "Batman", "Superboy", "Lobo", "Cyborg", "Bane", "Doomsday", "Deathstroke", "Red Hood", "Nightwing", "Robin"
+        };  
+
+        etiquetaNombres = new JLabel("", JLabel.CENTER);
+        etiquetaNombres.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
+        panelNombre.add(etiquetaNombres);
+
+        imagenes = new ImageIcon[10];
+
+        imagenes[0] = new ImageIcon(getClass().getResource("/galeria/Batman.png"));        
+        imagenes[1] = new ImageIcon(getClass().getResource("/galeria/Superboy.png"));
+        imagenes[2] = new ImageIcon(getClass().getResource("/galeria/Lobo.png"));
+        imagenes[3] = new ImageIcon(getClass().getResource("/galeria/Cyborg.png"));
+        imagenes[4] = new ImageIcon(getClass().getResource("/galeria/Bane.png"));
+        imagenes[5] = new ImageIcon(getClass().getResource("/galeria/Doomsday.png"));
+        imagenes[6] = new ImageIcon(getClass().getResource("/galeria/Deathstroke.png"));
+        imagenes[7] = new ImageIcon(getClass().getResource("/galeria/redhood.jpg"));
+        imagenes[8] = new ImageIcon(getClass().getResource("/galeria/Nightwing.jpeg"));
+        imagenes[9] = new ImageIcon(getClass().getResource("/galeria/Robin.jpg"));
+
+       
+        etiquetaImagen = new JLabel();
+        panelImagen.add(etiquetaImagen);
+       
+        mostrarImagen();
+       
+        btnAtras.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    if(imagenActual==0){
+                        imagenActual = 9;
+                    }else{
+                        imagenActual--;
+                    }
+                    mostrarImagen();
+            }
+        });
+        
+        btnAdelante.addActionListener(e->{
+             if(imagenActual==9){
+                        imagenActual = 0;
+                    }else{
+                        imagenActual++;
+                    }
+                    mostrarImagen();
+        });
+       
+        btnPlay.addActionListener(e->{
+           
+            if(!reproduciendo){
+                btnPlay.setText("Detener");
+                reproduciendo=true;
+                timer.start();
+            }else{                
+                btnPlay.setText("Reproducir");
+                reproduciendo=false;
+                timer.stop();
+            }    
+            
+        });
+        btnSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+            }
+        });
+       
+        /*
+         timer = new Timer(3000, (ActionEvent e) -> {
+            imagenActual++;
+            if (imagenActual >= imagenes.length) {
+                imagenActual = 0;
+            }
+            mostrarImagen();
+        });
+*/
+        timer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(imagenActual==9){
+                        imagenActual = 0;
+                    }else{
+                        imagenActual++;
+                    }
+                    mostrarImagen();
+            }
+        });
+       
+        panelBotones.add(btnAtras);
+        panelBotones.add(btnAdelante);        
+        panelBotones.add(btnPlay);
+        panelBotones.add(btnSalir);
+
+        add(panelNombre, BorderLayout.NORTH);
+        add(panelImagen, BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);        
+    }
+
+    public static void main(String[] args) {
+        Galeria g = new Galeria();
+        g.setVisible(true);
+    }
+   
+     public void mostrarImagen() {
+         ImageIcon icono = imagenes[imagenActual];
+         Image imagen = icono.getImage();
+         Image imagenEscalada = imagen.getScaledInstance(-1, 350, Image.SCALE_SMOOTH);
+
+         etiquetaImagen.setIcon(new ImageIcon(imagenEscalada));
+         etiquetaNombres.setText(Nombres[imagenActual]);
+     }
+}
